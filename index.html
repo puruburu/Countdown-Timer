@@ -1,0 +1,245 @@
+<DOCTYPE! html>
+<html>
+	<head>
+		<title>Timer</title>
+	</head>
+
+	<body>
+
+		<h1>Timer</h1>
+		<p>Fill in future date and time (24 hour format)</p>
+
+		<p align = "center">
+		DD<select id="d1"></select>
+		MM<select id="d2"></select>
+		YY<select id="d3"></select>
+		<br><br>
+		HH<select id="t1"></select>
+		MM<select id="t2"></select>
+		SS<select id="t3"></select>
+		</p>
+
+		<h3>Time Remaining</h3>
+		<p id = "timer"></p>
+
+		<input type = "button" value = "Start" onClick = "checkOld()">
+		<input type = "button" value = "Pause" onClick = "pause()">
+		<input type = "button" value = "Reset" onClick = "reset()">
+
+		<script type = "text/javaScript">
+			var today = new Date();
+	/*............................................................................ */
+
+			//DATE
+			var start = 1;
+			var end = 31;
+			var options = "";
+			for (var date = start; date <= end; date++){
+  				options += "<option>"+ date +"</option>";
+			}
+			document.getElementById("d1").innerHTML = options;
+
+			start = 1;
+			end = 12;
+			options = "";
+			for (var month = start; month <= end; month++){
+  				options += "<option>"+ month +"</option>";
+			}
+			document.getElementById("d2").innerHTML = options;
+
+			start = 2000;
+			end = today.getFullYear() + 10;
+			options = "";
+			for (var year = start; year <= end; year++){
+  				options += "<option>"+ year +"</option>";
+			}
+			document.getElementById("d3").innerHTML = options;
+
+			//TIME
+			start = 0;
+			end = 23;
+			options = "";
+			for (var hour = start; hour <= end; hour++){
+  				options += "<option>"+ hour +"</option>";
+			}
+			document.getElementById("t1").innerHTML = options;
+
+			start = 0;
+			end = 59;
+			options = "";
+			for (var min = start; min <= end; min++){
+  				options += "<option>"+ min +"</option>";
+			}
+			document.getElementById("t2").innerHTML = options;
+
+			options = "";
+			for (var sec = start; sec <= end; sec++){
+  				options += "<option>"+ sec +"</option>";
+			}
+			document.getElementById("t3").innerHTML = options;
+
+	/*............................................................................ */
+
+			function isLeap(y) {
+				if (y % 400 === 0)
+					return 1;
+				else if (y % 100 === 0)
+					return 0;
+				else if (y % 4 === 0)
+					return 1;
+				else
+					return 0;
+			}
+
+			function isValidDate(d, m, y) {
+				if ((d == 31) && (m == 2 || m == 4 || m == 6 || m == 9 || m == 11)) {
+					alert("Invalid Date");
+					return 1;
+				}
+				//Check for leap year
+				if (!isLeap(y) && m == 2 && d > 28) {
+					alert("Invalid Date");
+					return 1;
+				}
+				else if (isLeap(y) && m == 2 && d > 29) {
+					alert("Invalid Date");
+					return 1;
+				}
+				return 0;
+			}
+
+	/*............................................................................ */
+			var myVar;
+			function checkOld() {
+				//Checks if date and time selected is old or new. If old, gives warning
+				var now = new Date();
+				var year = now.getFullYear();
+				var month = now.getMonth() + 1;	//Jan is 0
+				var date = now.getDate();
+				var sameday = 0;
+
+				//Check for year, month and date
+				if (document.getElementById("d3").value < year) {
+					alert("Date is past");
+					return;
+				}
+				else if (document.getElementById("d3").value == year) {
+					if (document.getElementById("d2").value < month) {
+						alert("Date is past");
+						return;
+					}
+					else if (document.getElementById("d2").value == month) {
+						if (document.getElementById("d1").value < date) {
+							alert("Date is past");
+							return;
+						}
+						else if (document.getElementById("d1").value == date)
+							sameday = 1;
+					}
+				}
+
+				if (sameday) {
+				//Check for time only if date is same
+					var hour = now.getHours();
+					var min = now.getMinutes();
+					var sec = now.getSeconds();
+
+					if (document.getElementById("t1").value < hour) {
+						alert("Time is past");
+						return;
+					}
+					else if (document.getElementById("t1").value == hour) {
+						if (document.getElementById("t2").value < min) {
+							alert("Time is past");
+							return;
+						}
+						else if (document.getElementById("t2").value == min) {
+							if (document.getElementById("t3").value < sec) {
+								alert("Time is past");
+								return;
+							}
+							else if (document.getElementById("t3").value == sec) {
+								alert("The time has come!!!");
+								return;
+							}
+						}
+					}
+				}
+
+				var checkDate = isValidDate(document.getElementById("d1").value, document.getElementById("d2").value, document.getElementById("d3").value);
+				if (checkDate === 1)
+					return;
+
+				myVar = setInterval(function(){ timer() }, 1000);
+			}
+	/*............................................................................ */
+			function dropDown(truthVal) {
+			// If t is 1, dropDown is enabled. If t is 0, disabled
+				document.getElementById("d1").disabled = truthVal;
+				document.getElementById("d2").disabled = truthVal;
+				document.getElementById("d3").disabled = truthVal;
+				document.getElementById("t1").disabled = truthVal;
+				document.getElementById("t2").disabled = truthVal;
+				document.getElementById("t3").disabled = truthVal;
+			}
+	/*............................................................................ */
+
+			function timer() {
+				dropDown(true);
+
+				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+				var now = new Date();
+
+				var date = document.getElementById("d1").value;
+				if (date < 10)
+					date = "0" + date;
+				var hours = document.getElementById("t1").value;
+				if (hours < 10)
+					hours = "0" + hours;
+				var mins = document.getElementById("t2").value;
+				if (mins < 10)
+					mins = "0" + mins;
+				var secs = document.getElementById("t3").value;
+				if (secs < 10)
+					secs = "0" + secs;
+
+
+				var doomday = new Date(months[document.getElementById("d2").value - 1] + " " + date + ", " + document.getElementById("d3").value + " " + hours + ":" + mins + ":" + secs);
+
+				var diff = doomday - now;	//in milliseconds
+		
+				var day = Math.floor(diff / 86400000);
+				var x = diff % 86400000;
+				var hour = Math.floor(x / 3600000);
+				var y = x % 3600000;
+				var min = Math.floor(y / 60000);
+				x = y % 60000;
+				var sec = Math.floor(x / 1000);
+
+				document.getElementById("timer").innerHTML = day + " days, " + hour + "hours, " + min + "mins, " + sec + "secs.";
+
+				//Making last minute red
+				if (day === 0 && hour === 0 && min === 0 && sec <= 59) {
+					document.getElementById("timer").style.color = "red";
+					if (sec === 0) {
+						clearInterval(myVar);
+						alert("The time has come!!!");
+					}
+				}
+			}
+	/*............................................................................ */
+
+			function pause() {
+				clearInterval(myVar);
+			}
+
+			function reset() {
+				location.reload();
+				dropDown(false);
+			}
+	/*............................................................................ */
+
+		</script>
+	</body>
+</html>
