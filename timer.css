@@ -1,0 +1,35 @@
+h1
+{	
+	text-align: center;
+	text-decoration: underline;
+	font-family: Times New Roman;
+	font-size: 40pt;
+	/*background-color: MistyRose; */
+}
+
+h3 {
+	color: Grey;
+}
+
+body
+{	
+	background-image: url(http://www.ankitsahay.com/wp-content/uploads/2015/10/time-dows-not-exist.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-family: Veranda;
+	font-size: 15pt;
+	background-color: Cornsilk;
+}
+
+input
+{
+	border-style: solid;
+	border-color: Black;
+	border-width: 1px;
+	font-size: 15pt;
+}
+
+#timer 
+{
+	color: White;
+}

@@ -1,13 +1,16 @@
 <DOCTYPE! html>
 <html>
 	<head>
+		<link rel = "stylesheet" href = "timer.css" type = "text/css">
 		<title>Timer</title>
 	</head>
 
 	<body>
 
 		<h1>Timer</h1>
-		<p>Fill in future date and time (24 hour format)</p>
+		<br>
+		<p align = "center">Fill in future date and time (24 hour format)</p>
+		<br><br>
 
 		<p align = "center">
 		DD<select id="d1"></select>
@@ -18,13 +21,15 @@
 		MM<select id="t2"></select>
 		SS<select id="t3"></select>
 		</p>
-
+		<br>
+		<div>
 		<h3>Time Remaining</h3>
 		<p id = "timer"></p>
 
 		<input type = "button" value = "Start" onClick = "checkOld()">
 		<input type = "button" value = "Pause" onClick = "pause()">
 		<input type = "button" value = "Reset" onClick = "reset()">
+		</div>
 
 		<script type = "text/javaScript">
 			var today = new Date();
